@@ -1,0 +1,118 @@
+<html>
+<head>
+<title> Weathar </title>
+<style type= "text/css" >
+
+body {
+	background-image: url('sama.jpg');
+} 
+
+button {
+	background-color :	#00CED1;
+	border: none ;
+	color : white ;
+	text-aline: 20px 50px ;
+	margin: 6px 9px;
+	cursor: pointer;
+	border-radius: 10px;
+}
+
+
+div#content{
+  border-radius: 25px;
+  border: 2px solid #00FFFF;
+  background-position: left top;
+  background-repeat: repeat;
+  padding: 20px; 
+  width: 200px;
+  height: 150px;
+  margin: 2em;  
+}
+
+center {
+  margin : 10em;
+  background-color : white ;
+  width:50%;
+  padding:2em;
+  opacity: 0.8;
+}
+
+h1{
+ font-family:"Comic Sans MS", cursive, sans-serif;
+ font-size: 1.875em; /* 30px/16=1.875em */
+   }
+   
+  #city {
+  width: 30%;
+  
+} 
+</style>
+
+</head>
+
+
+
+<body>
+
+<center>
+<h1> weather condition </h1>
+<div >
+
+<input type="text"id="city"/>
+<br>
+<button id="search"onclick="go()"> click </button>
+<div id="error"></div>
+<div id="content">
+	<div id="temp">  </div>
+	<br>
+	<div id="main">    </div>
+	<br>
+	<div id="max">  </div>
+	<br>
+	<div id="humid"> </div>
+	<br>
+</div>
+</center>
+
+
+
+<script>
+
+function go (){
+var citytext = document.getElementById("city").value;
+getData(citytext).then(data => {
+
+console.log(data);
+if (data !== false){
+
+document.getElementById("temp").innerHTML ="temperature :"+ data["main"]["temp"];
+
+document.getElementById("main").innerHTML = "minimum tempdata :"+ data ["main"]["temp"];
+
+document.getElementById("max").innerHTML = "maximum temp: "+ data["main"]["temp"];
+
+document.getElementById("humid").innerHTML = "Humidity :"+ data["main"]["temp"];
+    }
+	else{
+	  document.getElementById("error").innerHTML ="error in fetching data";   
+	  document.getElementById("content").style.display = "none";
+	}
+
+});
+}
+
+async function getData(city){
+var response = await fetch ("https://api.openweathermap.org/data/2.5/weather?q="+city+"&units=metric&APPID=1ee4a1dbe88d69cbae728452f3a1c7e2");
+
+if(response.status == 200)
+   return response.json();
+else 
+  return false;
+
+
+}
+</script>
+
+</body>
+
+</html> 
